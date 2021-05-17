@@ -1,0 +1,83 @@
+
+
+create schema userMs;
+use userMs;
+
+create table buyer(
+	buyer_id integer AUTO_INCREMENT,
+	name varchar(30) NOT NULL,
+	email varchar(30) NOT NULL,
+	phone_number varchar(10) NOT NULL UNIQUE,
+	password varchar(70) NOT NULL,
+	is_privileged boolean ,
+	reward_points integer,
+	is_active boolean,
+	CONSTRAINT buyer_id_pk PRIMARY KEY(buyer_id)
+);
+
+insert into buyer values(1001,'Joey','joey@abc.com','9009009001','Joey@123',1,0,1);
+insert into buyer values(1002,'Monika','monika@abc.com','9009009002','Monika@123',1,10000,1);
+insert into buyer values(1003,'Arya','arya@abc.com','9009009003','Arya@123',0,50,1);
+insert into buyer values(1004,'Tyrion','tyrion@abc.com','9009009004','Tyrion@123',1,100,1);
+
+create table seller(
+	seller_id integer AUTO_INCREMENT,
+	name varchar(30) NOT NULL,
+	email varchar(30) NOT NULL,
+	phone_number varchar(10) NOT NULL UNIQUE,
+	password varchar(70) NOT NULL,
+	is_active boolean,
+	CONSTRAINT seller_id_pk PRIMARY KEY(seller_id)
+);
+
+create table wishlist(
+	buyer_id integer,
+	prod_id integer,
+	CONSTRAINT wishlist_comp_pk PRIMARY KEY(buyer_id,prod_id)
+);
+
+create table cart(
+	buyer_id integer,
+	prod_id integer,
+	quantity integer,
+	CONSTRAINT cart_comp_pk PRIMARY KEY(buyer_id,prod_id)
+);
+
+
+
+
+<spring-cloud.version>2020.0.2</spring-cloud.version>
+
+<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+
+
+
+
+
+UserController.REGISTRATION_SUCCESS= You have been successfully registered to this application. Please login to avail our services.
+UserController.CONGRATULATION=Congratulations!!, 
+UserController.BUYER_DELETED= You have successfully deleted your buyer account.
+
+
+# FOR SERVICE CLASS
+UserService.PHONE_NUMBER_ALREADY_EXIST= The contact number already exists.
+UserService.INVALID_CREDENTIALS=The contact number and password entered already exist. Please try again.
+UserService.NO_SUCH_USER_EXISTS= The entered phone number does not exist. Please check again.
+UserService.ERROR_MSG= Some error occured.
+
+#FOR BUYER VALIDATOR 
+UserValidator.INVALID_PHONE_NUMBER_FORMAT= The phone number entered is of invalid format.It can contain only digits and length should be 10.
+UserValidator.INVALID_PASSWORD_FORMAT=The password entered is of invalid format.It should contain only 7 to 20 characters, at least one uppercase, at least one lowercase, at least one digit and at least one special character.
+UserValidator.INVALID_NAME_FORMAT= The name entered is of invalid format.
+UserValidator.INVALID_EMAIL_FORMAT= The name entered is of invalid format.It should be in example@xyz.com format.
